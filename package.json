@@ -71,6 +71,7 @@
   "dependencies": {
     "dayjs": "^1.11.10",
     "i18next": "^23.5.1",
-    "lunar-lite": "^0.2.3"
+    "lunar-lite": "^0.2.3",
+    "yarn": "^1.22.22"
   }
 }
