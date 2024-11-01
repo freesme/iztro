@@ -659,8 +659,8 @@ export const getYearlyStarIndex = (solarDate: string, timeIndex: number, fixLeap
  * - 年解（按年支）
  *   - 解神从戌上起子，逆数至当生年太岁上是也
  *
- * @param earthlyBranch 地支（年）
  * @returns 年解索引
+ * @param earthlyBranchName
  */
 export const getNianjieIndex = (earthlyBranchName: EarthlyBranchName) => {
   const earthlyBranch = kot<EarthlyBranchKey>(earthlyBranchName, 'Earthly');
@@ -739,48 +739,25 @@ export const getMonthlyStarIndex = (solarDate: string, timeIndex: number, fixLea
  *
  * @param heavenlyStemName 天干
  * @returns 文昌、文曲索引
- */
-export const getChangQuIndexByHeavenlyStem = (heavenlyStemName: HeavenlyStemName) => {
-  let changIndex = -1;
-  let quIndex = -1;
+ */ export const getChangQuIndexByHeavenlyStem = (heavenlyStemName: HeavenlyStemName) => {
   const heavenlyStem = kot<HeavenlyStemKey>(heavenlyStemName, 'Heavenly');
+  const indexMap = {
+    jiaHeavenly: { changIndex: 'si', quIndex: 'you' },
+    yiHeavenly: { changIndex: 'woo', quIndex: 'shen' },
+    bingHeavenly: { changIndex: 'shen', quIndex: 'woo' },
+    wuHeavenly: { changIndex: 'shen', quIndex: 'woo' },
+    dingHeavenly: { changIndex: 'you', quIndex: 'si' },
+    jiHeavenly: { changIndex: 'you', quIndex: 'si' },
+    gengHeavenly: { changIndex: 'hai', quIndex: 'mao' },
+    xinHeavenly: { changIndex: 'zi', quIndex: 'yin' },
+    renHeavenly: { changIndex: 'yin', quIndex: 'zi' },
+    guiHeavenly: { changIndex: 'mao', quIndex: 'hai' },
+  };
 
-  switch (heavenlyStem) {
-    case 'jiaHeavenly':
-      changIndex = fixIndex(fixEarthlyBranchIndex('si'));
-      quIndex = fixIndex(fixEarthlyBranchIndex('you'));
-      break;
-    case 'yiHeavenly':
-      changIndex = fixIndex(fixEarthlyBranchIndex('woo'));
-      quIndex = fixIndex(fixEarthlyBranchIndex('shen'));
-      break;
-    case 'bingHeavenly':
-    case 'wuHeavenly':
-      changIndex = fixIndex(fixEarthlyBranchIndex('shen'));
-      quIndex = fixIndex(fixEarthlyBranchIndex('woo'));
-      break;
-    case 'dingHeavenly':
-    case 'jiHeavenly':
-      changIndex = fixIndex(fixEarthlyBranchIndex('you'));
-      quIndex = fixIndex(fixEarthlyBranchIndex('si'));
-      break;
-    case 'gengHeavenly':
-      changIndex = fixIndex(fixEarthlyBranchIndex('hai'));
-      quIndex = fixIndex(fixEarthlyBranchIndex('mao'));
-      break;
-    case 'xinHeavenly':
-      changIndex = fixIndex(fixEarthlyBranchIndex('zi'));
-      quIndex = fixIndex(fixEarthlyBranchIndex('yin'));
-      break;
-    case 'renHeavenly':
-      changIndex = fixIndex(fixEarthlyBranchIndex('yin'));
-      quIndex = fixIndex(fixEarthlyBranchIndex('zi'));
-      break;
-    case 'guiHeavenly':
-      changIndex = fixIndex(fixEarthlyBranchIndex('mao'));
-      quIndex = fixIndex(fixEarthlyBranchIndex('hai'));
-      break;
-  }
+  const { changIndex, quIndex } = indexMap[heavenlyStem] || { changIndex: -1, quIndex: -1 };
 
-  return { changIndex, quIndex };
+  return {
+    changIndex: fixIndex(fixEarthlyBranchIndex(changIndex as EarthlyBranchName)),
+    quIndex: fixIndex(fixEarthlyBranchIndex(quIndex as EarthlyBranchName)),
+  };
 };

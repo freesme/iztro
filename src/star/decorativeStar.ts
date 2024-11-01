@@ -27,34 +27,17 @@ import { getLuYangTuoMaIndex } from './location';
  * @param fiveElementClassName 五行局
  * @returns 长生12神开始的索引
  */
+
 export const getChangesheng12StartIndex = (fiveElementClassName: FiveElementsClassName) => {
   const fiveElementClass = kot<FiveElementsClassKey>(fiveElementClassName);
-  let startIdx = 0;
-
-  switch (FiveElementsClass[fiveElementClass]) {
-    case 2: {
-      startIdx = fixEarthlyBranchIndex('shen');
-      break;
-    }
-    case 3: {
-      startIdx = fixEarthlyBranchIndex('hai');
-      break;
-    }
-    case 4: {
-      startIdx = fixEarthlyBranchIndex('si');
-      break;
-    }
-    case 5: {
-      startIdx = fixEarthlyBranchIndex('shen');
-      break;
-    }
-    case 6: {
-      startIdx = fixEarthlyBranchIndex('yin');
-      break;
-    }
-  }
-
-  return startIdx;
+  const startIdxMap: { [key: number]: EarthlyBranchName } = {
+    2: 'shen',
+    3: 'hai',
+    4: 'si',
+    5: 'shen',
+    6: 'yin',
+  };
+  return fixEarthlyBranchIndex(startIdxMap[FiveElementsClass[fiveElementClass]]);
 };
 
 /**
